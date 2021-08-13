@@ -1,2 +1,2 @@
-# track-my-reading
-App to record reading and see stats
+# TrackMyReading by MJ Felix
+Coming soon ... watch this space!
