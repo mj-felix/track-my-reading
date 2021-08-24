@@ -83,7 +83,7 @@ app.listen(
     port,
     async () => {
         console.log(`${new Date().toString()}: Server started on port ${port}`);
-
+        console.log(process.env.DATABASE_URL);
         // db connection instance
         try {
             const dbConnection = require('./database/connection');
