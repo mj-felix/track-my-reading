@@ -20,15 +20,15 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 // herokuapp.com subdomain permanent redirection
-// if (process.env.PROVIDER === 'heroku' && process.env.NODE_ENV === 'production') {
-//     app.use((req, res, next) => {
-//         if (req.hostname.includes('track-my-reading')) {
-//             res.redirect(301, 'https://trackmyreading.mjfelix.dev');
-//         }
-//         else
-//             next();
-//     });
-// }
+if (process.env.PROVIDER === 'heroku' && process.env.NODE_ENV === 'production') {
+    app.use((req, res, next) => {
+        if (req.hostname.includes('track-my-reading')) {
+            res.redirect(301, 'https://trackmyreading.mjfelix.dev');
+        }
+        else
+            next();
+    });
+}
 
 // redirection to https - heroku way
 if (process.env.NODE_ENV === 'production') {
