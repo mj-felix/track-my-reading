@@ -1,9 +1,9 @@
-import express from 'express';
-const router = express.Router();
-import {
+const express = require('express');
+const {
     getBooks
-} from '../controllers/book.controller.js';
+} = require('../controllers/book.controller');
 
+const router = express.Router();
 
 router.route('/')
     // @desc    Get books for logged in user
@@ -11,4 +11,4 @@ router.route('/')
     // @access  Private
     .get(getBooks);
 
-export default router;
+module.exports = router;

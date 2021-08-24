@@ -3,7 +3,6 @@
   "version": "0.0.1",
   "description": "App to record reading and see stats",
   "main": "server.js",
-  "type": "module",
   "scripts": {
     "start": "node backend/server",
     "server": "nodemon backend/server",
@@ -22,16 +21,16 @@
   },
   "homepage": "https://github.com/mj-felix/track-my-reading#readme",
   "dependencies": {
-    "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "express-async-handler": "^1.1.4",
-    "morgan": "^1.10.0",
     "pg": "^8.7.1",
     "pg-hstore": "^2.3.4",
     "sequelize": "^6.6.5"
   },
   "devDependencies": {
     "concurrently": "^6.2.1",
+    "dotenv": "^10.0.0",
+    "morgan": "^1.10.0",
     "nodemon": "^2.0.12"
   }
 }

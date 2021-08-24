@@ -1,17 +1,9 @@
-import asyncHandler from 'express-async-handler';
+const asyncHandler = require('express-async-handler');
 
-export const getBooks = asyncHandler(async (req, res) => {
+const Book = require('../models/book.model');
 
-    // dummy books
-    const books = [
-        {
-            title: 'Title 1',
-            author: 'Author 1'
-        }, {
-            title: 'Title 2',
-            author: 'Author 2'
-        },
-
-    ];
+module.exports.getBooks = asyncHandler(async (req, res) => {
+    const books = await Book.findAll();
     res.json(books);
 });
+

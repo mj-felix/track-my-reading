@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import JSONPretty from 'react-json-pretty';
 import logo from './logo.svg';
 import './App.css';
 
@@ -10,7 +11,7 @@ function App() {
     const response = await fetch('/api/v1/books');
     const data = await response.json();
     console.log(data);
-    setApiResponse(JSON.stringify(data, null, 1));
+    setApiResponse(JSON.stringify(data));
   };
 
   useEffect(() => {
@@ -27,10 +28,10 @@ function App() {
       </header>
       <main>
         {apiResponse &&
-          <div>API test response: {apiResponse}</div>
+          <JSONPretty style={{ textAlign: 'left' }} data={apiResponse}></JSONPretty>
         }
       </main>
-    </div>
+    </div >
   );
 }
 
