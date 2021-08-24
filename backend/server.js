@@ -2,6 +2,10 @@ import express from 'express';
 import path from 'path';
 import dotenv from 'dotenv';
 import morgan from 'morgan';
+import enforce from 'express-sslify';
+
+// import routes
+import bookRoutes from './routes/book.routes.js';
 
 // const connectToDB = require('./database/connect.js');
 // const { notFoundError, errorHandler } = require('./middleware/error.middleware.js');
@@ -17,34 +21,36 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 // herokuapp.com subdomain permanent redirection
-if (process.env.PROVIDER === 'heroku' && process.env.NODE_ENV === 'production') {
-    app.use((req, res, next) => {
-        if (req.hostname.includes('track-my-notes')) {
-            res.redirect(301, 'https://trackmynotes.mjfelix.dev');
-        }
-        else
-            next();
-    });
-}
+// if (process.env.PROVIDER === 'heroku' && process.env.NODE_ENV === 'production') {
+//     app.use((req, res, next) => {
+//         if (req.hostname.includes('track-my-reading')) {
+//             res.redirect(301, 'https://trackmyreading.mjfelix.dev');
+//         }
+//         else
+//             next();
+//     });
+// }
 
 // redirection to https - heroku way
 if (process.env.NODE_ENV === 'production') {
-    app.use((req, res, next) => {
-        if (req.header('x-forwarded-proto') !== 'https') {
-            if (req.url.includes('/api/v')) {
-                res.status(400);
-                throw new Error('Use https');
-                // throw new Error(errors.app.NO_HTTPS_USED);
-            } else {
-                res.redirect(301, `https://${req.header('host')}${req.url}`);
-            }
-        }
-        else
-            next();
-    });
+    enforce.HTTPS({ trustProtoHeader: true });
+    // app.use((req, res, next) => {
+    //     if (req.header('x-forwarded-proto') !== 'https') {
+    //         if (req.url.includes('/api/v')) {
+    //             res.status(400);
+    //             throw new Error('Use https');
+    //             // throw new Error(errors.app.NO_HTTPS_USED);
+    //         } else {
+    //             res.redirect(301, `https://${req.header('host')}${req.url}`);
+    //         }
+    //     }
+    //     else
+    //         next();
+    // });
 }
 
 // Use imported routes
+app.use('/api/v1/books', bookRoutes);
 // app.use('/api/v1/auth', require('./routes/auth.routes.js'));
 // app.use('/api/v1/users', require('./routes/user.routes.js'));
 // app.use('/api/v1/tags', require('./routes/tag.routes.js'));
@@ -56,6 +62,7 @@ if (process.env.NODE_ENV === 'production') {
 // connectToDB();
 
 // Serve React app in Prod
+const __dirname = path.resolve();
 if (process.env.NODE_ENV === 'production') {
     app.use(express.static(path.join(__dirname, '../frontend/build')));
     app.get('*', (req, res, next) => {
