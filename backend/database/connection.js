@@ -8,7 +8,12 @@ module.exports = new Sequelize(
     {
         dialect: 'postgres',
         dialectOptions: {
-            ssl: process.env.NODE_ENV === "production"
+            ssl: process.env.NODE_ENV === "production" ?
+                {
+                    require: true,
+                    rejectUnauthorized: false
+                }
+                : null
         }
     }
 );
