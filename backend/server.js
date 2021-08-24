@@ -85,22 +85,24 @@ app.listen(
         console.log(`${new Date().toString()}: Server started on port ${port}`);
 
         // db connection instance
-        const dbConnection = require('./database/connection');
-        await dbConnection.sync({ force: true });
-        // await dbConnection.sync();
-        console.log(`${new Date().toString()}: Connected to ${dbConnection.options.dialect} '${dbConnection.config.database}' database on port ${dbConnection.config.port}`);
+        try {
+            const dbConnection = require('./database/connection');
+            await dbConnection.sync({ force: true });
+            // await dbConnection.sync();
+            console.log(`${new Date().toString()}: Connected to ${dbConnection.options.dialect} '${dbConnection.config.database}' database on port ${dbConnection.config.port}`);
 
-        //test data seed
-        const Book = require('./models/book.model');
-        let testBook = await Book.create({
-            title: "Extreme Measures",
-            author: "Michael Palmer"
-        });
-        console.log(testBook);
-        testBook = await Book.create({
-            title: "Elon Musk: A Mission to Save the World",
-            author: "Anna Crowley Redding"
-        });
-        console.log(testBook);
+            //test data seed
+            const Book = require('./models/book.model');
+            let testBook = await Book.create({
+                title: "Extreme Measures",
+                author: "Michael Palmer"
+            });
+            console.log(testBook);
+            testBook = await Book.create({
+                title: "Elon Musk: A Mission to Save the World",
+                author: "Anna Crowley Redding"
+            });
+            console.log(testBook);
+        } catch (err) { console.log(err); }
     }
 );
