@@ -4,7 +4,6 @@ const path = require('path');
 // import routes
 const bookRoutes = require('./routes/book.routes');
 
-// const connectToDB = require('./database/connect.js');
 // const { notFoundError, errorHandler } = require('./middleware/error.middleware.js');
 // const errors = require('./messages/error.messages.js');
 
