@@ -63,13 +63,14 @@ app.use('/api/v1/books', bookRoutes);
 
 // Serve React app in Prod
 const __dirname = path.resolve();
+console.log(__dirname);
 if (process.env.NODE_ENV === 'production') {
-    app.use(express.static(path.join(__dirname, '../frontend/build')));
+    app.use(express.static(path.join(__dirname, '/frontend/build')));
     app.get('*', (req, res, next) => {
         if (req.url.includes('/api/v')) {
             next();
         } else {
-            res.sendFile(path.join(__dirname, '../frontend/build/index.html'));
+            res.sendFile(path.join(__dirname, '/frontend/build/index.html'));
         }
     });
 } else {
