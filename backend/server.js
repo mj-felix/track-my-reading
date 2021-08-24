@@ -2,7 +2,6 @@ import express from 'express';
 import path from 'path';
 import dotenv from 'dotenv';
 import morgan from 'morgan';
-import enforce from 'express-sslify';
 
 // import routes
 import bookRoutes from './routes/book.routes.js';
@@ -33,20 +32,19 @@ if (process.env.NODE_ENV !== "production") {
 
 // redirection to https - heroku way
 if (process.env.NODE_ENV === 'production') {
-    enforce.HTTPS({ trustProtoHeader: true });
-    // app.use((req, res, next) => {
-    //     if (req.header('x-forwarded-proto') !== 'https') {
-    //         if (req.url.includes('/api/v')) {
-    //             res.status(400);
-    //             throw new Error('Use https');
-    //             // throw new Error(errors.app.NO_HTTPS_USED);
-    //         } else {
-    //             res.redirect(301, `https://${req.header('host')}${req.url}`);
-    //         }
-    //     }
-    //     else
-    //         next();
-    // });
+    app.use((req, res, next) => {
+        if (req.header('x-forwarded-proto') !== 'https') {
+            if (req.url.includes('/api/v')) {
+                res.status(400);
+                throw new Error('Use https');
+                // throw new Error(errors.app.NO_HTTPS_USED);
+            } else {
+                res.redirect(301, `https://${req.header('host')}${req.url}`);
+            }
+        }
+        else
+            next();
+    });
 }
 
 // Use imported routes
