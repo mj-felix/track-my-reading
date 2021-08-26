@@ -7,27 +7,39 @@ import AuthenticationButton from "./components/authentication-button.component";
 import { useAuth0 } from "@auth0/auth0-react";
 
 function App() {
-  const { isAuthenticated, user, getAccessTokenSilently } = useAuth0();
-  const { isLoading } = useAuth0();
+  const { isLoading, isAuthenticated, user, getAccessTokenSilently } = useAuth0();
 
   const [apiResponse, setApiResponse] = useState(null);
 
   const testApi = async () => {
-    const token = await getAccessTokenSilently();
-    console.log(token);
-    const response = await fetch('/api/v1/books',
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-    const data = await response.json();
-    setApiResponse(JSON.stringify(data));
+    try {
+      const token = await getAccessTokenSilently();
+      console.log(token);
+      const response = await fetch('/api/v1/books',
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+      const data = await response.json();
+      setApiResponse(JSON.stringify(data));
+    } catch (err) {
+      setApiResponse(JSON.stringify(err));
+    }
+  };
+
+  const storeUser = async () => {
+    if (isAuthenticated) {
+      await console.log('Making API call to store user if it does not exist');
+    } else {
+      console.log('Logged out');
+    }
   };
 
   useEffect(() => {
-
-  }, []);
+    storeUser();
+    // eslint-disable-next-line
+  }, [isAuthenticated]);
 
   return (
     <div className="App">
@@ -40,9 +52,7 @@ function App() {
           <p>
             <AuthenticationButton />
             <br />
-            {isAuthenticated &&
-              <button onClick={testApi}>Test API</button>
-            }
+            <button onClick={testApi}>Test API</button>
           </p>
         }
       </header>
