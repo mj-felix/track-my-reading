@@ -4,8 +4,8 @@ const path = require('path');
 // import routes
 const bookRoutes = require('./routes/book.routes');
 
-// const { notFoundError, errorHandler } = require('./middleware/error.middleware.js');
-// const errors = require('./messages/error.messages.js');
+const { notFoundError, errorHandler } = require('./middleware/error.middleware.js');
+const errors = require('./messages/error.messages.js');
 
 const app = express();
 app.use(express.json());
@@ -34,8 +34,7 @@ if (process.env.NODE_ENV === 'production') {
         if (req.header('x-forwarded-proto') !== 'https') {
             if (req.url.includes('/api/v')) {
                 res.status(400);
-                throw new Error('Use https');
-                // throw new Error(errors.app.NO_HTTPS_USED);
+                throw new Error(errors.app.NO_HTTPS_USED);
             } else {
                 res.redirect(301, `https://${req.header('host')}${req.url}`);
             }
@@ -72,10 +71,8 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 // Error handling
-// app.use(notFoundError);
-// app.use(errorHandler);
-
-
+app.use(notFoundError);
+app.use(errorHandler);
 
 const port = process.env.PORT || 5000;
 app.listen(
@@ -94,14 +91,16 @@ app.listen(
             const Book = require('./models/book.model');
             let testBook = await Book.create({
                 title: "Extreme Measures",
-                author: "Michael Palmer"
+                author: "Michael Palmer",
+                totalPages: 345
             });
-            console.log(testBook);
+            // console.log(testBook);
             testBook = await Book.create({
                 title: "Elon Musk: A Mission to Save the World",
-                author: "Anna Crowley Redding"
+                author: "Anna Crowley Redding",
+                totalPages: 987
             });
-            console.log(testBook);
+            // console.log(testBook);
         } catch (err) { console.log(err); }
     }
 );

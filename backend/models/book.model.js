@@ -17,6 +17,19 @@ Book.init({
     },
     author: {
         type: DataTypes.STRING
+    },
+    isbn: {
+        type: DataTypes.STRING
+    },
+    note: {
+        type: DataTypes.STRING(600)
+    },
+    totalPages: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+    },
+    targetDate: {
+        type: DataTypes.DATE
     }
 }, {
     sequelize,
