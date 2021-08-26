@@ -3,19 +3,30 @@ import JSONPretty from 'react-json-pretty';
 import logo from './logo.svg';
 import './App.css';
 
+import AuthenticationButton from "./components/authentication-button.component";
+import { useAuth0 } from "@auth0/auth0-react";
+
 function App() {
+  const { isAuthenticated, user, getAccessTokenSilently } = useAuth0();
+  const { isLoading } = useAuth0();
 
   const [apiResponse, setApiResponse] = useState(null);
 
-  const fetchBooks = async () => {
-    const response = await fetch('/api/v1/books');
+  const testApi = async () => {
+    const token = await getAccessTokenSilently();
+    console.log(token);
+    const response = await fetch('/api/v1/books',
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
     const data = await response.json();
-    console.log(data);
     setApiResponse(JSON.stringify(data));
   };
 
   useEffect(() => {
-    fetchBooks();
+
   }, []);
 
   return (
@@ -25,8 +36,20 @@ function App() {
         <p>
           TrackMyReading by MJ Felix is coming ...
         </p>
+        {isLoading ? 'Loading ...' :
+          <p>
+            <AuthenticationButton />
+            <br />
+            {isAuthenticated &&
+              <button onClick={testApi}>Test API</button>
+            }
+          </p>
+        }
       </header>
       <main>
+        {user &&
+          <JSONPretty style={{ textAlign: 'left' }} data={user}></JSONPretty>
+        }
         {apiResponse &&
           <JSONPretty style={{ textAlign: 'left' }} data={apiResponse}></JSONPretty>
         }

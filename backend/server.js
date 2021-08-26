@@ -4,7 +4,11 @@ const path = require('path');
 // import routes
 const bookRoutes = require('./routes/book.routes');
 
-const { notFoundError, errorHandler } = require('./middleware/error.middleware.js');
+
+//auth mw
+const { jwtCheck } = require('./middleware/auth.middleware');
+
+const { notFoundError, errorHandler } = require('./middleware/error.middleware');
 const errors = require('./messages/error.messages.js');
 
 const app = express();
@@ -16,6 +20,9 @@ if (process.env.NODE_ENV !== "production") {
     const morgan = require('morgan');
     app.use(morgan(':user-agent :date[iso] :method :url :status :response-time ms - :res[content-length]'));
 }
+
+// Auth check
+app.use(jwtCheck);
 
 // herokuapp.com subdomain permanent redirection
 if (process.env.PROVIDER === 'heroku' && process.env.NODE_ENV === 'production') {
