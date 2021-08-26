@@ -89,12 +89,21 @@ app.listen(
 
             //test data seed
             const Book = require('./models/book.model');
+            const Session = require('./models/session.model');
             let testBook = await Book.create({
                 title: "Extreme Measures",
                 author: "Michael Palmer",
-                totalPages: 345
+                totalPages: 345,
             });
+            const testSession = await Session.create({
+                minutes: 23,
+                page: 235,
+                date: new Date(),
+                bookId: testBook.id
+            });
+            // console.log(await testBook.getSessions());
             // console.log(testBook);
+            // await testBook.destroy();
             testBook = await Book.create({
                 title: "Elon Musk: A Mission to Save the World",
                 author: "Anna Crowley Redding",

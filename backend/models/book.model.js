@@ -1,5 +1,6 @@
 const { DataTypes, Model } = require('sequelize');
 const sequelize = require('../database/connection');
+const Session = require('./session.model');
 
 class Book extends Model { }
 
@@ -33,7 +34,20 @@ Book.init({
     }
 }, {
     sequelize,
-    modelName: 'Book'
+    modelName: 'Book',
+    tableName: 'book',
+    underscored: true
+});
+
+Book.hasMany(Session, {
+    onDelete: 'CASCADE',
+    foreignKey: 'bookId'
+});
+Session.belongsTo(Book, {
+    foreignKey: {
+        allowNull: false,
+        name: 'bookId',
+    }
 });
 
 module.exports = Book;
