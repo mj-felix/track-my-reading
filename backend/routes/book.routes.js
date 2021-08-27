@@ -1,5 +1,7 @@
 const router = require('express').Router();
+
 const bookController = require('../controllers/book.controller');
+const { validateBookId } = require('../middleware/uuid.middleware');
 
 router.route('/')
     // @desc    Get books
@@ -15,14 +17,14 @@ router.route('/:bookId')
     // @desc    Get book
     // @route   GET /api/v1/books/:bookId
     // @access  Private
-    .get(bookController.fetchBook)
+    .get(validateBookId, bookController.fetchBook)
     // @desc    Delete book
     // @route   DELETE /api/v1/books/:bookId
     // @access  Private
-    .delete(bookController.deleteBook)
+    .delete(validateBookId, bookController.deleteBook)
     // @desc    Update book
     // @route   PATCH /api/v1/books/:bookId
     // @access  Private
-    .patch(bookController.updateBook);
+    .patch(validateBookId, bookController.updateBook);
 
 module.exports = router;

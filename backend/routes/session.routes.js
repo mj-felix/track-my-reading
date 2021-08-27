@@ -1,6 +1,7 @@
 const router = require('express').Router({ mergeParams: true });
+
 const sessionController = require('../controllers/session.controller');
-const { jwtCheck, bookBelongsToUser } = require('../middleware/auth.middleware');
+const { validateSessionId } = require('../middleware/uuid.middleware');
 
 router.route('/')
     // @desc    Get all sessions for a given book
@@ -16,14 +17,14 @@ router.route('/:sessionId')
     // @desc    Get session
     // @route   GET /api/v1/books/:bookId/sessions/:sessionId
     // @access  Private
-    .get(sessionController.fetchSession)
+    .get(validateSessionId, sessionController.fetchSession)
     // @desc    Delete session
     // @route   DELETE /api/v1/books/:bookId/sessions/:sessionId
     // @access  Private
-    .delete(sessionController.deleteSession)
+    .delete(validateSessionId, sessionController.deleteSession)
     // @desc    Update session
     // @route   PATCH /api/v1/books/:bookId/sessions/:sessionId
     // @access  Private
-    .patch(sessionController.updateSession);
+    .patch(validateSessionId, sessionController.updateSession);
 
 module.exports = router;

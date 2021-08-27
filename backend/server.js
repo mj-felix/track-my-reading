@@ -3,7 +3,6 @@ const path = require('path');
 
 const { notFoundError, errorHandler } = require('./middleware/error.middleware');
 const errors = require('./messages/error.messages');
-// const User = require('./models/user.model');
 
 const app = express();
 app.use(express.json());
