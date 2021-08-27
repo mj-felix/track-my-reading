@@ -8,24 +8,24 @@ router.route('/')
     // @desc    Get books
     // @route   GET /api/v1/books
     // @access  Private
-    .get(bookController.fetchBooks)
+    .get(jwtCheck, bookController.fetchBooks)
     // @desc    Create book
     // @route   POST /api/v1/books
     // @access  Private
-    .post(bookController.createBook);
+    .post(jwtCheck, bookController.createBook);
 
 router.route('/:bookId')
     // @desc    Get book
     // @route   GET /api/v1/books/:bookId
     // @access  Private
-    .get(bookController.fetchBook)
+    .get(jwtCheck, bookController.fetchBook)
     // @desc    Delete book
     // @route   DELETE /api/v1/books/:bookId
     // @access  Private
-    .delete(bookController.deleteBook)
+    .delete(jwtCheck, bookController.deleteBook)
     // @desc    Update book
     // @route   PATCH /api/v1/books/:bookId
     // @access  Private
-    .patch(bookController.updateBook);
+    .patch(jwtCheck, bookController.updateBook);
 
 module.exports = router;

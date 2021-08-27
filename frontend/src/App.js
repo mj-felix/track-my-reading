@@ -30,9 +30,21 @@ function App() {
 
   const storeUser = async () => {
     if (isAuthenticated) {
-      await console.log('Making API call to store user if it does not exist');
-    } else {
-      console.log('Logged out');
+      try {
+        const token = await getAccessTokenSilently();
+        console.log(token);
+        const response = await fetch('/api/v1/user',
+          {
+            method: 'POST',
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+        const data = await response.json();
+        setApiResponse(JSON.stringify(data));
+      } catch (err) {
+        setApiResponse(JSON.stringify(err));
+      }
     }
   };
 

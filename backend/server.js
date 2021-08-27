@@ -2,8 +2,8 @@ const express = require('express');
 const path = require('path');
 
 const { notFoundError, errorHandler } = require('./middleware/error.middleware');
-const errors = require('./messages/error.messages.js');
-const User = require('./models/user.model');
+const errors = require('./messages/error.messages');
+// const User = require('./models/user.model');
 
 const app = express();
 app.use(express.json());
@@ -45,7 +45,7 @@ if (process.env.NODE_ENV === 'production') {
 // Routes
 app.use('/api/v1/user', require('./routes/user.routes'));
 app.use('/api/v1/books', require('./routes/book.routes'));
-app.use('/api/v1/books/:bookId/sessions', require('./routes/session.routes'));
+app.use('/api/v1/books', require('./routes/session.routes'));
 
 // Serve React app in Prod
 console.log(__dirname);
@@ -77,44 +77,44 @@ app.listen(
         // db connection instance
         try {
             const dbConnection = require('./database/connection');
-            await dbConnection.sync({ force: true });
-            // await dbConnection.sync();
+            // await dbConnection.sync({ force: true });
+            await dbConnection.sync();
             console.log(`${new Date().toString()}: Connected to ${dbConnection.options.dialect} '${dbConnection.config.database}' database on port ${dbConnection.config.port}`);
 
             //test data seed
-            const Book = require('./models/book.model');
-            const Session = require('./models/session.model');
-            const User = require('./models/user.model');
-            const testUser = await User.create({
-                id: 'testId12345'
-            });
-            let testBook = await Book.create({
-                title: "Extreme Measures",
-                author: "Michael Palmer",
-                totalPages: 345,
-                userId: testUser.id
-            });
-            testBook.createSession({
-                minutes: 23,
-                page: 235,
-                date: new Date(),
-            });
-            const testSession = await Session.create({
-                minutes: 56,
-                page: 339,
-                date: new Date(),
-                bookId: testBook.id
-            });
+            // const Book = require('./models/book.model');
+            // const Session = require('./models/session.model');
+            // const User = require('./models/user.model');
+            // const testUser = await User.create({
+            //     id: 'testId12345'
+            // });
+            // let testBook = await Book.create({
+            //     title: "Extreme Measures",
+            //     author: "Michael Palmer",
+            //     totalPages: 345,
+            //     userId: testUser.id
+            // });
+            // testBook.createSession({
+            //     minutes: 23,
+            //     page: 235,
+            //     date: new Date(),
+            // });
+            // const testSession = await Session.create({
+            //     minutes: 56,
+            //     page: 339,
+            //     date: new Date(),
+            //     bookId: testBook.id
+            // });
             // await testUser.destroy();
             // console.log(await testBook.getSessions());
             // console.log(testBook);
             // await testBook.destroy();
-            testBook = await Book.create({
-                title: "Elon Musk: A Mission to Save the World",
-                author: "Anna Crowley Redding",
-                totalPages: 987,
-                userId: testUser.id
-            });
+            // testBook = await Book.create({
+            //     title: "Elon Musk: A Mission to Save the World",
+            //     author: "Anna Crowley Redding",
+            //     totalPages: 987,
+            //     userId: testUser.id
+            // });
             // console.log(testBook);
         } catch (err) { console.log(err); }
     }
