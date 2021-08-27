@@ -23,6 +23,10 @@ Session.init({
     date: {
         type: DataTypes.DATE,
         allowNull: false
+    },
+    bookId: {
+        type: DataTypes.UUID,
+        allowNull: false
     }
 }, {
     sequelize,

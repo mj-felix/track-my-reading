@@ -1,11 +1,9 @@
 const express = require('express');
 const path = require('path');
 
-// import routes
-const bookRoutes = require('./routes/book.routes');
-
 const { notFoundError, errorHandler } = require('./middleware/error.middleware');
 const errors = require('./messages/error.messages.js');
+const User = require('./models/user.model');
 
 const app = express();
 app.use(express.json());
@@ -44,14 +42,10 @@ if (process.env.NODE_ENV === 'production') {
     });
 }
 
-// Use imported routes
-app.use('/api/v1/books', bookRoutes);
-// app.use('/api/v1/auth', require('./routes/auth.routes.js'));
-// app.use('/api/v1/users', require('./routes/user.routes.js'));
-// app.use('/api/v1/tags', require('./routes/tag.routes.js'));
-// app.use('/api/v1/notes', require('./routes/note.routes.js'));
-// app.use('/api/v1/notes', require('./routes/file.routes.js'));
-// app.use('/api/v1/public', require('./routes/public.routes.js'));
+// Routes
+app.use('/api/v1/user', require('./routes/user.routes'));
+app.use('/api/v1/books', require('./routes/book.routes'));
+app.use('/api/v1/books/:bookId/sessions', require('./routes/session.routes'));
 
 // Serve React app in Prod
 console.log(__dirname);
@@ -90,24 +84,36 @@ app.listen(
             //test data seed
             const Book = require('./models/book.model');
             const Session = require('./models/session.model');
+            const User = require('./models/user.model');
+            const testUser = await User.create({
+                id: 'testId12345'
+            });
             let testBook = await Book.create({
                 title: "Extreme Measures",
                 author: "Michael Palmer",
                 totalPages: 345,
+                userId: testUser.id
             });
-            const testSession = await Session.create({
+            testBook.createSession({
                 minutes: 23,
                 page: 235,
                 date: new Date(),
+            });
+            const testSession = await Session.create({
+                minutes: 56,
+                page: 339,
+                date: new Date(),
                 bookId: testBook.id
             });
+            // await testUser.destroy();
             // console.log(await testBook.getSessions());
             // console.log(testBook);
             // await testBook.destroy();
             testBook = await Book.create({
                 title: "Elon Musk: A Mission to Save the World",
                 author: "Anna Crowley Redding",
-                totalPages: 987
+                totalPages: 987,
+                userId: testUser.id
             });
             // console.log(testBook);
         } catch (err) { console.log(err); }
