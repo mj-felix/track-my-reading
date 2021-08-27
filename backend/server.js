@@ -43,12 +43,9 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 // Routes
-app.use('/api/v1/user', require('./routes/user.routes'));
-app.use('/api/v1/books', require('./routes/book.routes'));
-app.use('/api/v1/books', require('./routes/session.routes'));
+app.use('/', require('./routes/index.routes'));
 
 // Serve React app in Prod
-console.log(__dirname);
 if (process.env.NODE_ENV === 'production') {
     app.use(express.static(path.join(__dirname, '../frontend/build')));
     app.get('*', (req, res, next) => {

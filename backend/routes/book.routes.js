@@ -1,31 +1,28 @@
-const express = require('express');
+const router = require('express').Router();
 const bookController = require('../controllers/book.controller');
-const { jwtCheck } = require('../middleware/auth.middleware');
-
-const router = express.Router();
 
 router.route('/')
     // @desc    Get books
     // @route   GET /api/v1/books
     // @access  Private
-    .get(jwtCheck, bookController.fetchBooks)
+    .get(bookController.fetchBooks)
     // @desc    Create book
     // @route   POST /api/v1/books
     // @access  Private
-    .post(jwtCheck, bookController.createBook);
+    .post(bookController.createBook);
 
 router.route('/:bookId')
     // @desc    Get book
     // @route   GET /api/v1/books/:bookId
     // @access  Private
-    .get(jwtCheck, bookController.fetchBook)
+    .get(bookController.fetchBook)
     // @desc    Delete book
     // @route   DELETE /api/v1/books/:bookId
     // @access  Private
-    .delete(jwtCheck, bookController.deleteBook)
+    .delete(bookController.deleteBook)
     // @desc    Update book
     // @route   PATCH /api/v1/books/:bookId
     // @access  Private
-    .patch(jwtCheck, bookController.updateBook);
+    .patch(bookController.updateBook);
 
 module.exports = router;

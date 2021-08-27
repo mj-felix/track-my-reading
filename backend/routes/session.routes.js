@@ -1,31 +1,29 @@
-const express = require('express');
+const router = require('express').Router({ mergeParams: true });
 const sessionController = require('../controllers/session.controller');
 const { jwtCheck, bookBelongsToUser } = require('../middleware/auth.middleware');
 
-const router = express.Router();
-
-router.route('/:bookId/sessions')
+router.route('/')
     // @desc    Get all sessions for a given book
     // @route   GET /api/v1/books/:bookId/sessions
     // @access  Private
-    .get(jwtCheck, bookBelongsToUser, sessionController.fetchSessions)
+    .get(sessionController.fetchSessions)
     // @desc    Create session for a given book
     // @route   POST /api/v1/books/:bookId/sessions
     // @access  Private
-    .post(jwtCheck, bookBelongsToUser, sessionController.createSession);
+    .post(sessionController.createSession);
 
-router.route('/:bookId/sessions/:sessionId')
+router.route('/:sessionId')
     // @desc    Get session
     // @route   GET /api/v1/books/:bookId/sessions/:sessionId
     // @access  Private
-    .get(jwtCheck, bookBelongsToUser, sessionController.fetchSession)
+    .get(sessionController.fetchSession)
     // @desc    Delete session
     // @route   DELETE /api/v1/books/:bookId/sessions/:sessionId
     // @access  Private
-    .delete(jwtCheck, bookBelongsToUser, sessionController.deleteSession)
+    .delete(sessionController.deleteSession)
     // @desc    Update session
     // @route   PATCH /api/v1/books/:bookId/sessions/:sessionId
     // @access  Private
-    .patch(jwtCheck, bookBelongsToUser, sessionController.updateSession);
+    .patch(sessionController.updateSession);
 
 module.exports = router;
