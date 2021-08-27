@@ -1,5 +1,6 @@
 module.exports = {
     auth: {
+        INVALID_TOKEN: 'Authorization token invalid'
     },
     app: {
         NOT_FOUND: 'Resource not found',
