@@ -6,15 +6,13 @@ module.exports.notFoundError = (req, res, next) => {
     next(err);
 };
 
-module.exports.authError = (err, req, res, next) => {
+module.exports.errorHandler = (err, req, res, next) => {
+    // Auth error
     if (err.name === 'UnauthorizedError') {
         res.status(401);
         err.message = errors.auth.INVALID_TOKEN;
-        next(err);
     }
-};
 
-module.exports.errorHandler = (err, req, res, next) => {
     const statusCode = !res.statusCode ? 500 : res.statusCode;
     res.status(statusCode);
     const json = { message: err.message };

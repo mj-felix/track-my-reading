@@ -1,7 +1,7 @@
 const express = require('express');
 const path = require('path');
 
-const { notFoundError, authError, errorHandler } = require('./middleware/error.middleware');
+const { notFoundError, errorHandler } = require('./middleware/error.middleware');
 const errors = require('./messages/error.messages');
 
 const app = express();
@@ -62,7 +62,6 @@ if (process.env.NODE_ENV === 'production') {
 
 // Error handling
 app.use(notFoundError);
-app.use(authError);
 app.use(errorHandler);
 
 const port = process.env.PORT || 5000;
