@@ -2,6 +2,8 @@ const router = require('express').Router();
 
 const bookController = require('../controllers/book.controller');
 const { validateBookId } = require('../middleware/uuid.middleware');
+const validate = require('../middleware/validate.middleware');
+const bookRules = require('../models/book.rules');
 
 router.route('/')
     // @desc    Get books
@@ -11,7 +13,7 @@ router.route('/')
     // @desc    Create book
     // @route   POST /api/v1/books
     // @access  Private
-    .post(bookController.createBook);
+    .post(validate(bookRules), bookController.createBook);
 
 router.route('/:bookId')
     // @desc    Get book
@@ -25,6 +27,6 @@ router.route('/:bookId')
     // @desc    Update book
     // @route   PATCH /api/v1/books/:bookId
     // @access  Private
-    .patch(validateBookId, bookController.updateBook);
+    .put(validateBookId, validate(bookRules), bookController.updateBook);
 
 module.exports = router;

@@ -2,6 +2,8 @@ const router = require('express').Router({ mergeParams: true });
 
 const sessionController = require('../controllers/session.controller');
 const { validateSessionId } = require('../middleware/uuid.middleware');
+const validate = require('../middleware/validate.middleware');
+const sessionRules = require('../models/session.rules');
 
 router.route('/')
     // @desc    Get all sessions for a given book
@@ -11,7 +13,7 @@ router.route('/')
     // @desc    Create session for a given book
     // @route   POST /api/v1/books/:bookId/sessions
     // @access  Private
-    .post(sessionController.createSession);
+    .post(validate(sessionRules), sessionController.createSession);
 
 router.route('/:sessionId')
     // @desc    Get session
@@ -25,6 +27,6 @@ router.route('/:sessionId')
     // @desc    Update session
     // @route   PATCH /api/v1/books/:bookId/sessions/:sessionId
     // @access  Private
-    .patch(validateSessionId, sessionController.updateSession);
+    .patch(validateSessionId, validate(sessionRules), sessionController.updateSession);
 
 module.exports = router;

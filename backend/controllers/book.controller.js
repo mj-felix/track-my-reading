@@ -54,12 +54,16 @@ module.exports.updateBook = asyncHandler(async (req, res) => {
     const { sub: userId } = req.user;
     const { bookId: id } = req.params;
     const { title, author, totalPages, targetDate } = req.body;
-    const updatedBook = await Book.update({
+    const bookToUpdate = {
         title,
         author,
         totalPages,
         targetDate
-    }, {
+    };
+    if (targetDate === undefined) {
+        bookToUpdate.targetDate = null;
+    }
+    const updatedBook = await Book.update(bookToUpdate, {
         where: { id, userId },
         returning: true
     });
