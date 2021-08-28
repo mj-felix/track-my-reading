@@ -107,7 +107,7 @@ router.route('/')
      *     tags: [Books]
      *     responses:
      *       200:
-     *         description: Books list
+     *         description: Books list returned
      *         content:
      *           application/json:
      *             schema:
@@ -163,13 +163,13 @@ router.route('/:bookId')
      *         description: The book id
      *     responses:
      *       200:
-     *         description: Book with provided id
+     *         description: Book with provided id returned
      *         contens:
      *           application/json:
      *             schema:
      *               $ref: '#/components/schemas/Book'
      *       404:
-     *         description: Book was not found | User not found
+     *         description: Book not found | User not found
      */
     .get(validateBookId, bookController.fetchBook)
 
@@ -217,7 +217,7 @@ router.route('/:bookId')
      *            $ref: '#/components/requestBodies/BookBody'
      *    responses:
      *      200:
-     *        description: Uook updated
+     *        description: Book updated
      *        content:
      *          application/json:
      *            schema:

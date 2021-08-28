@@ -33,7 +33,7 @@ function App() {
       try {
         const token = await getAccessTokenSilently();
         console.log(token);
-        const response = await fetch('/api/v1/user',
+        const response = await fetch('/api/v1/users',
           {
             method: 'POST',
             headers: {

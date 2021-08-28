@@ -73,8 +73,8 @@ app.listen(
         // db connection instance
         try {
             const dbConnection = require('./database/connection');
-            await dbConnection.sync({ force: true });
-            // await dbConnection.sync();
+            // await dbConnection.sync({ force: true });
+            await dbConnection.sync();
             console.log(`${new Date().toString()}: Connected to ${dbConnection.options.dialect} '${dbConnection.config.database}' database on port ${dbConnection.config.port}`);
 
             //test data seed
