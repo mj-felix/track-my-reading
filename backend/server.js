@@ -1,7 +1,5 @@
 const express = require('express');
 const path = require('path');
-const swaggerUI = require("swagger-ui-express");
-const swaggerJsDoc = require("swagger-jsdoc");
 
 const { notFoundError, errorHandler } = require('./middleware/error.middleware');
 const errors = require('./messages/error.messages');
@@ -43,28 +41,8 @@ if (process.env.NODE_ENV === 'production') {
     });
 }
 
-// Swagger API documentation
-const specs = swaggerJsDoc({
-    definition: {
-        openapi: "3.0.0",
-        info: {
-            title: "Track My Reading API",
-            version: "0.2.0",
-            description: "Track My Reading by MJ Felix is an app to record reading and see stats.",
-        },
-        // servers: [
-        //     {
-        //         url: "http://localhost:5000",
-        //     },
-        // ],
-    },
-    apis: ["./routes/*.js"],
-});
-app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(specs));
-
 // Routes
 app.use('/', require('./routes/index.routes'));
-
 
 // Serve React app in Prod
 if (process.env.NODE_ENV === 'production') {
@@ -95,8 +73,8 @@ app.listen(
         // db connection instance
         try {
             const dbConnection = require('./database/connection');
-            // await dbConnection.sync({ force: true });
-            await dbConnection.sync();
+            await dbConnection.sync({ force: true });
+            // await dbConnection.sync();
             console.log(`${new Date().toString()}: Connected to ${dbConnection.options.dialect} '${dbConnection.config.database}' database on port ${dbConnection.config.port}`);
 
             //test data seed

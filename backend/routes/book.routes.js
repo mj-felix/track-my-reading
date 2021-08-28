@@ -5,6 +5,15 @@ const { validateBookId } = require('../middleware/uuid.middleware');
 const validate = require('../middleware/validate.middleware');
 const bookRules = require('../models/book.rules');
 
+/**
+ * @openapi
+ * /:
+ *   get:
+ *     description: Welcome to swagger-jsdoc!
+ *     responses:
+ *       200:
+ *         description: Returns a mysterious string.
+ */
 router.route('/')
     // @desc    Get books
     // @route   GET /api/v1/books
