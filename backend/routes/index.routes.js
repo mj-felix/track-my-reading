@@ -29,8 +29,8 @@ const swaggerDocument = swaggerJsDoc({
 });
 const swaggerUiOptions = {
     swaggerOptions: {
-        tryItOutEnabled: false,
-        supportedSubmitMethods: [''],
+        // tryItOutEnabled: false,
+        // supportedSubmitMethods: [''],
     },
 };
 router.use('/api/v1/docs', swaggerUi.serve);

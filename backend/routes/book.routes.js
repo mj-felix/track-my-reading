@@ -8,6 +8,13 @@ const bookRules = require('../models/book.rules');
 /**
  * @openapi
  * components:
+ * 
+ *   securitySchemes:
+ *      bearerAuth:
+ *          type: http
+ *          scheme: bearer
+ *          bearerFormat: JWT
+ * 
  *   schemas:
  *     Book:
  *       type: object
@@ -58,7 +65,7 @@ const bookRules = require('../models/book.rules');
  *         author: James S. A. Corey
  *         totalPages: 577
  *         targetDate: 2021-12-31T00:00:00.000Z
- *         userId: auth0|6128085c21ddbc0068162b73
+ *         userId: auth0|6169085c21ddbc0068162b69
  *         updatedAt: 2021-08-28T06:25:55.251Z
  *         createdAt: 2021-08-28T06:25:55.251Z
  *
@@ -92,6 +99,14 @@ const bookRules = require('../models/book.rules');
  *         totalPages: 577
  *         targetDate: 2021-12-31
  *         isAbandoned: false
+ * 
+ *   responses:
+ *      Unauthorized:
+ *         description: Unauthorized
+ *         content:
+ *           application/json:
+ *             example:
+ *                  message: Authorization token invalid
  */
 
 /**
@@ -107,7 +122,9 @@ router.route('/')
      * @openapi
      * /api/v1/books:
      *   get:
-     *     summary: Returns list of all books (for authorised user)
+     *     summary: Returns list of all books
+     *     security:
+     *      - bearerAuth: []
      *     tags: [Books]
      *     responses:
      *       200:
@@ -118,16 +135,24 @@ router.route('/')
      *               type: array
      *               items:
      *                 $ref: '#/components/schemas/Book'
+     *       401:
+     *         $ref: '#/components/responses/Unauthorized'
      *       404:
      *         description: User not found
+     *         content:
+     *           application/json:
+     *             example:
+     *                  message: User not found
      */
     .get(bookController.fetchBooks)
 
     /**
      * @openapi
-     * /api/vi/books:
+     * /api/v1/books:
      *   post:
-     *     summary: Creates new book (for authorised user)
+     *     summary: Creates new book
+     *     security:
+     *      - bearerAuth: []
      *     tags: [Books]
      *     requestBody:
      *       required: true
@@ -142,10 +167,23 @@ router.route('/')
      *           application/json:
      *             schema:
      *               $ref: '#/components/schemas/Book'
+     *       401:
+     *         $ref: '#/components/responses/Unauthorized'
      *       404:
      *         description: User not found
+     *         content:
+     *           application/json:
+     *             example:
+     *                  message: User not found
      *       422:
-     *         description: Title must be provided | Total pages must be a positive Integer | Target date must be a valid date in RRRR-MM-DD format
+     *         description: Validation error
+     *         content:
+     *           application/json:
+     *             example:
+     *                  errors:
+     *                      - title: Title must be provided
+     *                      - totalPages: Total pages must be a positive Integer
+     *                      - targetDate: Target date, if provided, must be a valid date in RRRR-MM-DD format           
      */
     .post(validate(bookRules), bookController.createBook);
 
@@ -156,6 +194,8 @@ router.route('/:bookId')
      * /api/v1/books/{id}:
      *   get:
      *     summary: Returns book by id
+     *     security:
+     *      - bearerAuth: []
      *     tags: [Books]
      *     parameters:
      *       - in: path
@@ -172,8 +212,14 @@ router.route('/:bookId')
      *           application/json:
      *             schema:
      *               $ref: '#/components/schemas/Book'
+     *       401:
+     *         $ref: '#/components/responses/Unauthorized'
      *       404:
      *         description: Book not found | User not found
+     *         content:
+     *           application/json:
+     *             example:
+     *                  message: Book not found
      */
     .get(validateBookId, bookController.fetchBook)
 
@@ -182,6 +228,8 @@ router.route('/:bookId')
      * /api/v1/books/{id}:
      *   delete:
      *     summary: Removes book by id
+     *     security:
+     *      - bearerAuth: []
      *     tags: [Books]
      *     parameters:
      *       - in: path
@@ -194,8 +242,14 @@ router.route('/:bookId')
      *     responses:
      *       204:
      *         description: Book deleted
+     *       401:
+     *         $ref: '#/components/responses/Unauthorized'
      *       404:
      *         description: Book not found | User not found
+     *         content:
+     *           application/json:
+     *             example:
+     *                  message: Book not found
      */
     .delete(validateBookId, bookController.deleteBook)
 
@@ -203,7 +257,9 @@ router.route('/:bookId')
      * @openapi
      * /api/v1/books/{id}:
      *  put:
-     *    summary: Updates book by id (for authorised user)
+     *    summary: Updates book by id
+     *    security:
+     *      - bearerAuth: []
      *    tags: [Books]
      *    parameters:
      *      - in: path
@@ -226,10 +282,23 @@ router.route('/:bookId')
      *          application/json:
      *            schema:
      *              $ref: '#/components/schemas/Book'
+     *      401:
+     *         $ref: '#/components/responses/Unauthorized'
      *      404:
      *        description: Book not found | User not found
+     *        content:
+     *           application/json:
+     *             example:
+     *                  message: Book not found
      *      422:
-     *        description: Title must be provided | Total pages must be a positive Integer | Target date must be a valid date in RRRR-MM-DD format
+     *        description: Validation error
+     *        content:
+     *           application/json:
+     *             example:
+     *                  errors:
+     *                      - title: Title must be provided
+     *                      - totalPages: Total pages must be a positive Integer
+     *                      - targetDate: Target date, if provided, must be a valid date in RRRR-MM-DD format
      */
 
     .put(validateBookId, validate(bookRules), bookController.updateBook);
