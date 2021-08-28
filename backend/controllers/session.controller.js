@@ -23,7 +23,7 @@ module.exports.createSession = asyncHandler(async (req, res) => {
         bookId
     });
     await Book.updateStatus(bookId);
-    res.json(newSession);
+    res.status(201).json(newSession);
 });
 
 module.exports.fetchSession = asyncHandler(async (req, res) => {

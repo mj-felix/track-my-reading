@@ -13,7 +13,7 @@ module.exports.errorHandler = (err, req, res, next) => {
         err.message = errors.auth.INVALID_TOKEN;
     }
 
-    const statusCode = !res.statusCode ? 500 : res.statusCode;
+    const statusCode = (!res.statusCode || res.statusCode === 200) ? 500 : res.statusCode;
     res.status(statusCode);
     const json = { message: err.message };
     if (process.env.NODE_ENV !== 'production') {

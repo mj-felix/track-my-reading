@@ -2,12 +2,12 @@ const router = require('express').Router();
 const swaggerUi = require('swagger-ui-express');
 const swaggerJsDoc = require("swagger-jsdoc");
 
-const { jwtCheck, bookBelongsToUser } = require('../middleware/auth.middleware');
+const { jwtCheck, userExists, bookBelongsToUser } = require('../middleware/auth.middleware');
 const { validateBookId } = require('../middleware/uuid.middleware');
 
 // API routes
-router.use('/api/v1/user', jwtCheck, require('./user.routes'));
-router.use('/api/v1/books', jwtCheck, require('./book.routes'));
+router.use('/api/v1/users', jwtCheck, require('./user.routes'));
+router.use('/api/v1/books', jwtCheck, userExists, require('./book.routes'));
 router.use('/api/v1/books/:bookId/sessions', jwtCheck, validateBookId, bookBelongsToUser, require('./session.routes'));
 
 // Swagger API documentation
@@ -27,7 +27,13 @@ const swaggerDocument = swaggerJsDoc({
     },
     apis: ['./backend/routes/*.js'],
 });
+const swaggerUiOptions = {
+    swaggerOptions: {
+        tryItOutEnabled: false,
+        supportedSubmitMethods: [''],
+    },
+};
 router.use('/api-docs', swaggerUi.serve);
-router.get('/api-docs', swaggerUi.setup(swaggerDocument));
+router.get('/api-docs', swaggerUi.setup(swaggerDocument, swaggerUiOptions));
 
 module.exports = router;

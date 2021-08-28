@@ -11,7 +11,6 @@ module.exports = {
     },
     book: {
         NOT_FOUND: 'Book not found',
-        NOT_USERS_BOOK: 'Book does not belong to user',
         TITLE_REQUIRED: 'Title must be provided',
         TOTAL_PAGES_POSITIVE_INTEGER: 'Total pages must be a positive Integer',
         TARGET_DATE_INVALID_FORMAT: 'Target date must be a valid date in RRRR-MM-DD format'

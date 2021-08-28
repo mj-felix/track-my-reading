@@ -21,7 +21,7 @@ module.exports.createBook = asyncHandler(async (req, res) => {
         targetDate,
         userId
     });
-    res.json(newBook);
+    res.status(201).json(newBook);
 });
 
 module.exports.fetchBook = asyncHandler(async (req, res) => {

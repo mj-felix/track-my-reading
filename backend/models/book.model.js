@@ -58,6 +58,10 @@ Book.init({
         defaultValue: 1,
         allowNull: false
     },
+    isAbandoned: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
+    },
     userId: {
         type: DataTypes.STRING,
         allowNull: false
