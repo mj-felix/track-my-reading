@@ -1,5 +1,7 @@
 const express = require('express');
 const path = require('path');
+const swaggerUI = require("swagger-ui-express");
+const swaggerJsDoc = require("swagger-jsdoc");
 
 const { notFoundError, errorHandler } = require('./middleware/error.middleware');
 const errors = require('./messages/error.messages');
@@ -41,8 +43,28 @@ if (process.env.NODE_ENV === 'production') {
     });
 }
 
+// Swagger API documentation
+const specs = swaggerJsDoc({
+    definition: {
+        openapi: "3.0.0",
+        info: {
+            title: "Track My Reading API",
+            version: "0.2.0",
+            description: "Track My Reading by MJ Felix is an app to record reading and see stats.",
+        },
+        // servers: [
+        //     {
+        //         url: "http://localhost:5000",
+        //     },
+        // ],
+    },
+    apis: ["./routes/*.js"],
+});
+app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(specs));
+
 // Routes
 app.use('/', require('./routes/index.routes'));
+
 
 // Serve React app in Prod
 if (process.env.NODE_ENV === 'production') {
