@@ -17,8 +17,9 @@ module.exports.fetchUser = asyncHandler(async (req, res) => {
 
 module.exports.createUser = asyncHandler(async (req, res) => {
     const { sub: id } = req.user;
-    const user = await User.findOrCreate({
-        where: { id }
+    const { email } = req.body;
+    const user = await User.upsert({
+        id, email
     });
     res.status(201).json(user[0]);
 });

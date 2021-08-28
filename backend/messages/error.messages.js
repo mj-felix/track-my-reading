@@ -8,6 +8,7 @@ module.exports = {
     },
     user: {
         NOT_FOUND: 'User not found',
+        INVALID_EMAIL: 'Email invalid'
     },
     book: {
         NOT_FOUND: 'Book not found',

@@ -1,5 +1,8 @@
 const router = require('express').Router();
+
 const userController = require('../controllers/user.controller');
+const validate = require('../middleware/validate.middleware');
+const userRules = require('../models/user.rules');
 
 router.route('/')
     // @desc    Get user using provided token
@@ -9,6 +12,6 @@ router.route('/')
     // @desc    Create user using provided token
     // @route   POST /api/v1/user
     // @access  Private
-    .post(userController.createUser);
+    .post(validate(userRules), userController.createUser);
 
 module.exports = router;

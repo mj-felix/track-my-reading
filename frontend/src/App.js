@@ -38,7 +38,9 @@ function App() {
             method: 'POST',
             headers: {
               Authorization: `Bearer ${token}`,
+              'Content-Type': 'application/json',
             },
+            body: JSON.stringify({ email: user.email })
           });
         const data = await response.json();
         setApiResponse(JSON.stringify(data));

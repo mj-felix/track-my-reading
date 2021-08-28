@@ -19,7 +19,7 @@ const Auth0ProviderWithHistory = ({ children }) => {
             redirectUri={window.location.origin}
             onRedirectCallback={onRedirectCallback}
             audience={audience}
-            advancedOptions={{ defaultScope: 'openid' }}
+            advancedOptions={{ defaultScope: 'openid email' }}
         >
             {children}
         </Auth0Provider>
