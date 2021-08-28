@@ -1,6 +1,7 @@
 const asyncHandler = require('express-async-handler');
 
 const Session = require('../models/session.model');
+const Book = require('../models/book.model');
 const errors = require('../messages/error.messages');
 
 module.exports.fetchSessions = asyncHandler(async (req, res) => {
@@ -21,6 +22,7 @@ module.exports.createSession = asyncHandler(async (req, res) => {
         date,
         bookId
     });
+    await Book.updateStatus(bookId);
     res.json(newSession);
 });
 
@@ -45,6 +47,7 @@ module.exports.deleteSession = asyncHandler(async (req, res) => {
         res.status(404);
         throw new Error(errors.session.NOT_FOUND);
     }
+    await Book.updateStatus(bookId);
     res.status(204).send();
 });
 
@@ -63,5 +66,6 @@ module.exports.updateSession = asyncHandler(async (req, res) => {
         res.status(404);
         throw new Error(errors.session.NOT_FOUND);
     }
+    await Book.updateStatus(bookId);
     res.json(updatedSession[1][0]);
 });
