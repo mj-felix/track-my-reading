@@ -17,12 +17,12 @@ const bookRules = require('../models/book.rules');
  *           format: uuid
  *           description: Auto-generated id of the book 
  *         status:
- *           type: integer
- *           enum: [1, 2, 3]
- *           description: Book status (1 - to read, 2 - reading, 3 - finished)
+ *           type: string
+ *           enum: [added, reading, finished]
+ *           description: Book status
  *         isAbandoned:
  *           type: boolean
- *           description: (not used at present)
+ *           description: Describes if book has been abandoned
  *         title:
  *           type: string
  *           description: Title
@@ -52,7 +52,7 @@ const bookRules = require('../models/book.rules');
  *           description: Date book created
  *       example:
  *         id: bc010eee-d584-4feb-b08b-77d5acf2c54a
- *         status: 1
+ *         status: reading
  *         isAbandoned: false
  *         title: Caliban's War
  *         author: James S. A. Corey
@@ -83,11 +83,15 @@ const bookRules = require('../models/book.rules');
  *           type: string
  *           fortmat: date-time
  *           description: Target date to finish reading (will be nullified if not provided)
+ *         isAbandoned:
+ *           type: boolean
+ *           description: Describes if book has been abandoned (will be set to false if not provided)
  *       example:
  *         title: Caliban's War
  *         author: James S. A. Corey
  *         totalPages: 577
  *         targetDate: 2021-12-31
+ *         isAbandoned: false
  */
 
 /**
@@ -123,7 +127,7 @@ router.route('/')
      * @openapi
      * /api/vi/books:
      *   post:
-     *     summary: Creates a new book (for authorised user)
+     *     summary: Creates new book (for authorised user)
      *     tags: [Books]
      *     requestBody:
      *       required: true

@@ -8,7 +8,7 @@ class Book extends Model {
             where: { bookId }
         });
         if (sessions.length === 0) {
-            await Book.update({ status: 1 }, { where: { id: bookId } });
+            await Book.update({ status: 'added' }, { where: { id: bookId } });
             return true;
         } else {
             const book = await Book.findOne({
@@ -16,13 +16,13 @@ class Book extends Model {
             });
             const { totalPages, status } = book;
             const pageReached = Math.max(...sessions.map(session => session.page));
-            if (pageReached >= totalPages && status !== 3) {
-                book.status = 3;
+            if (pageReached >= totalPages && status !== 'finished') {
+                book.status = 'finished';
                 await book.save();
                 return true;
             }
-            if (pageReached < totalPages && status !== 2) {
-                book.status = 2;
+            if (pageReached < totalPages && status !== 'reading') {
+                book.status = 'reading';
                 await book.save();
                 return true;
             }
@@ -53,9 +53,9 @@ Book.init({
     targetDate: {
         type: DataTypes.DATE
     },
-    status: { // 1 = to read, 2 = reading, 3 = finished
-        type: DataTypes.INTEGER,
-        defaultValue: 1,
+    status: {
+        type: DataTypes.ENUM('added', 'reading', 'finished'),
+        defaultValue: 'added',
         allowNull: false
     },
     isAbandoned: {

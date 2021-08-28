@@ -13,12 +13,13 @@ module.exports.fetchBooks = asyncHandler(async (req, res) => {
 
 module.exports.createBook = asyncHandler(async (req, res) => {
     const { sub: userId } = req.user;
-    const { title, author, totalPages, targetDate } = req.body;
+    const { title, author, totalPages, targetDate, isAbandoned } = req.body;
     const newBook = await Book.create({
         title,
         author,
         totalPages,
         targetDate,
+        isAbandoned,
         userId
     });
     res.status(201).json(newBook);
@@ -53,15 +54,19 @@ module.exports.deleteBook = asyncHandler(async (req, res) => {
 module.exports.updateBook = asyncHandler(async (req, res) => {
     const { sub: userId } = req.user;
     const { bookId: id } = req.params;
-    const { title, author, totalPages, targetDate } = req.body;
+    const { title, author, totalPages, targetDate, isAbandoned } = req.body;
     const bookToUpdate = {
         title,
         author,
         totalPages,
-        targetDate
+        targetDate,
+        isAbandoned
     };
     if (targetDate === undefined) {
         bookToUpdate.targetDate = null;
+    }
+    if (isAbandoned === undefined) {
+        bookToUpdate.isAbandoned = false;
     }
     const updatedBook = await Book.update(bookToUpdate, {
         where: { id, userId },

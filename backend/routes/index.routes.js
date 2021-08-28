@@ -33,7 +33,7 @@ const swaggerUiOptions = {
         supportedSubmitMethods: [''],
     },
 };
-router.use('/api-docs', swaggerUi.serve);
-router.get('/api-docs', swaggerUi.setup(swaggerDocument, swaggerUiOptions));
+router.use('/api/v1/docs', swaggerUi.serve);
+router.get('/api/v1/docs', swaggerUi.setup(swaggerDocument, swaggerUiOptions));
 
 module.exports = router;
