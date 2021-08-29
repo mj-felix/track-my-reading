@@ -122,7 +122,7 @@ router.route('/')
      * @openapi
      * /api/v1/books:
      *   get:
-     *     summary: Returns list of all books
+     *     summary: Returns list of books (for authorised user)
      *     security:
      *      - bearerAuth: []
      *     tags: [Books]
@@ -150,7 +150,7 @@ router.route('/')
      * @openapi
      * /api/v1/books:
      *   post:
-     *     summary: Creates new book
+     *     summary: Creates new book (for authorised user)
      *     security:
      *      - bearerAuth: []
      *     tags: [Books]
@@ -193,7 +193,7 @@ router.route('/:bookId')
      * @openapi
      * /api/v1/books/{id}:
      *   get:
-     *     summary: Returns book by id
+     *     summary: Returns book by id (for authorised user)
      *     security:
      *      - bearerAuth: []
      *     tags: [Books]
@@ -227,7 +227,7 @@ router.route('/:bookId')
      * @openapi
      * /api/v1/books/{id}:
      *   delete:
-     *     summary: Removes book by id
+     *     summary: Removes book by id (for authorised user)
      *     security:
      *      - bearerAuth: []
      *     tags: [Books]
@@ -257,7 +257,7 @@ router.route('/:bookId')
      * @openapi
      * /api/v1/books/{id}:
      *  put:
-     *    summary: Updates book by id
+     *    summary: Updates book by id (for authorised user)
      *    security:
      *      - bearerAuth: []
      *    tags: [Books]
