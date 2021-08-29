@@ -15,6 +15,21 @@ User.init({
         type: DataTypes.STRING,
         allowNull: false
     },
+    minutesSpent: {
+        type: DataTypes.INTEGER,
+        defaultValue: 0,
+        allowNull: false
+    },
+    readingsCompleted: {
+        type: DataTypes.INTEGER,
+        defaultValue: 0,
+        allowNull: false
+    },
+    pagesRead: {
+        type: DataTypes.INTEGER,
+        defaultValue: 0,
+        allowNull: false
+    },
 }, {
     sequelize,
     modelName: 'User',

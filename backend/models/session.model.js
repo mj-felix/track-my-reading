@@ -1,6 +1,7 @@
 const { DataTypes, Model } = require('sequelize');
+
 const sequelize = require('../database/connection');
-const Book = require('./book.model');
+const { updateUserStats } = require('../utils/user.utils');
 
 class Session extends Model { }
 
@@ -32,7 +33,30 @@ Session.init({
     sequelize,
     modelName: 'Session',
     tableName: 'session',
-    underscored: true
+    underscored: true,
+    hooks: {
+        afterCreate: async (session, { userId }) => {
+            await updateUserStats(userId);
+        },
+        afterUpdate: async (session, { userId }) => {
+            await updateUserStats(userId);
+        },
+        afterDestroy: async (session, { userId }) => {
+            await updateUserStats(userId);
+        },
+    }
 });
+
+// Session.afterCreate(function (session, options) {
+//     console.log(options);
+// });
+
+// Session.afterDestroy(function (session, options) {
+//     console.log(options);
+// });
+
+// Session.afterUpdate(function (session, options) {
+//     console.log(options);
+// });
 
 module.exports = Session;

@@ -14,14 +14,13 @@ module.exports.fetchSessions = asyncHandler(async (req, res) => {
 
 module.exports.createSession = asyncHandler(async (req, res) => {
     const { bookId } = req.params;
-    console.log(req.params);
     const { minutes, page, date } = req.body;
     const newSession = await Session.create({
         minutes,
         page,
         date,
         bookId
-    });
+    }, { userId: req.user.sub });
     await Book.updateStatus(bookId);
     res.status(201).json(newSession);
 });
@@ -41,7 +40,9 @@ module.exports.fetchSession = asyncHandler(async (req, res) => {
 module.exports.deleteSession = asyncHandler(async (req, res) => {
     const { bookId, sessionId: id } = req.params;
     const isSessionDeleted = await Session.destroy({
-        where: { id, bookId }
+        where: { id, bookId },
+        individualHooks: true,
+        userId: req.user.sub
     });
     if (!isSessionDeleted) {
         res.status(404);
@@ -60,7 +61,9 @@ module.exports.updateSession = asyncHandler(async (req, res) => {
         date
     }, {
         where: { id, bookId },
-        returning: true
+        returning: true,
+        individualHooks: true,
+        userId: req.user.sub
     });
     if (updatedSession[0] === 0) {
         res.status(404);
