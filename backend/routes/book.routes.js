@@ -191,7 +191,7 @@ router.route('/:bookId')
 
     /**
      * @openapi
-     * /api/v1/books/{id}:
+     * /api/v1/books/{bookId}:
      *   get:
      *     summary: Returns book by id (for authorised user)
      *     security:
@@ -199,16 +199,16 @@ router.route('/:bookId')
      *     tags: [Books]
      *     parameters:
      *       - in: path
-     *         name: id
+     *         name: bookId
      *         schema:
      *           type: string
      *           format: uuid
      *         required: true
-     *         description: The book id
+     *         description: Book id
      *     responses:
      *       200:
      *         description: Book with provided id returned
-     *         contens:
+     *         content:
      *           application/json:
      *             schema:
      *               $ref: '#/components/schemas/Book'
@@ -225,7 +225,7 @@ router.route('/:bookId')
 
     /**
      * @openapi
-     * /api/v1/books/{id}:
+     * /api/v1/books/{bookId}:
      *   delete:
      *     summary: Removes book by id (for authorised user)
      *     security:
@@ -233,7 +233,7 @@ router.route('/:bookId')
      *     tags: [Books]
      *     parameters:
      *       - in: path
-     *         name: id
+     *         name: bookId
      *         schema:
      *           type: string
      *           format: uuid
@@ -255,7 +255,7 @@ router.route('/:bookId')
 
     /**
      * @openapi
-     * /api/v1/books/{id}:
+     * /api/v1/books/{bookId}:
      *  put:
      *    summary: Updates book by id (for authorised user)
      *    security:
@@ -263,7 +263,7 @@ router.route('/:bookId')
      *    tags: [Books]
      *    parameters:
      *      - in: path
-     *        name: id
+     *        name: bookId
      *        schema:
      *          type: string
      *          format: uuid
