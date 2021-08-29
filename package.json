@@ -1,6 +1,6 @@
 {
   "name": "track-my-reading",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "App to record reading and see stats",
   "main": "server.js",
   "scripts": {
