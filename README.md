@@ -1,6 +1,6 @@
 # TrackMyReading by MJ Felix
 
-*Coming soon ... watch this space!*
+*Frontend coming soon ... watch this space! APIs are functional in Production.*
 
 ## Table of Contents
 
@@ -39,7 +39,7 @@ Add books you want to read, add reading sessions and analyse the stats around yo
  - Sequelize ORM
  - Express Validator
  - Auth0
- - Swagger UI + Swagger JSDoc
+ - SwaggerUI + Swagger JSDoc
  - Others ([see package.json](https://github.com/mj-felix/track-my-reading/blob/main/package.json))
 
 ### Frontend
