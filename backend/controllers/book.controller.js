@@ -5,8 +5,13 @@ const errors = require('../messages/error.messages');
 
 module.exports.fetchBooks = asyncHandler(async (req, res) => {
     const { sub: userId } = req.user;
+    const whereOptions = { userId };
+    const status = req.query.status;
+    if (status) {
+        whereOptions.status = status;
+    }
     const fetchedBooks = await Book.findAll({
-        where: { userId }
+        where: whereOptions
     });
     res.json(fetchedBooks);
 });

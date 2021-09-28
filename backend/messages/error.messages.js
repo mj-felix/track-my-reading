@@ -15,7 +15,8 @@ module.exports = {
         TITLE_REQUIRED: 'Title must be provided',
         TOTAL_PAGES_POSITIVE_INTEGER: 'Total pages must be a positive Integer',
         TARGET_DATE_INVALID_FORMAT: 'Target date, if provided, must be a valid date in RRRR-MM-DD format',
-        IS_ABANDONED_INVALID_FORMAT: 'Is Abandoned must be either true or false'
+        IS_ABANDONED_INVALID_FORMAT: 'Is Abandoned must be either true or false',
+        INVALID_STATUS: 'Book status, if provided, must be one of: added, reading, finished'
     },
     session: {
         NOT_FOUND: 'Session not found',

@@ -4,6 +4,7 @@ const bookController = require('../controllers/book.controller');
 const { validateBookId } = require('../middleware/uuid.middleware');
 const validate = require('../middleware/validate.middleware');
 const bookRules = require('../models/book.rules');
+const booksRules = require('../models/books.rules');
 
 /**
  * @openapi
@@ -126,6 +127,13 @@ router.route('/')
      *     security:
      *      - bearerAuth: []
      *     tags: [Books]
+     *     parameters:
+     *          - in: query
+     *            name: status
+     *            schema:
+     *              type: string
+     *              enum: [added, reading, finished]
+     *            description: Status of the book
      *     responses:
      *       200:
      *         description: Books list returned
@@ -143,8 +151,15 @@ router.route('/')
      *           application/json:
      *             example:
      *                  message: User not found
+     *       422:
+     *         description: Validation error
+     *         content:
+     *           application/json:
+     *             example:
+     *                  errors:
+     *                      - status: "Book status, if provided, must be one of: added, reading, finished"
      */
-    .get(bookController.fetchBooks)
+    .get(validate(booksRules), bookController.fetchBooks)
 
     /**
      * @openapi
