@@ -1,32 +1,24 @@
-import React, { useEffect, useState } from 'react';
-import JSONPretty from 'react-json-pretty';
-import logo from './logo.svg';
-import './App.css';
-
-import AuthenticationButton from "./components/authentication-button.component";
+import React, { useEffect } from 'react';
+import { Switch } from 'react-router-dom';
 import { useAuth0 } from "@auth0/auth0-react";
 
+import './App.css';
+
+import PrivateRoute from './components/routing/private-route.container';
+import PublicRoute from './components/routing/public-route.container';
+
+import HomePage from './pages/public/home.page';
+import UserPage from './pages/private/user.page';
+import BookPage from './pages/private/book.page';
+import BooksInProgressPage from './pages/private/books-in-progress.page';
+import BooksAddedPage from './pages/private/books-added.page';
+import BooksFinishedPage from './pages/private/books-finished.page';
+
+import Header from './components/navigation/header.component';
+
+
 function App() {
-  const { isLoading, isAuthenticated, user, getAccessTokenSilently } = useAuth0();
-
-  const [apiResponse, setApiResponse] = useState(null);
-
-  const testApi = async () => {
-    try {
-      const token = await getAccessTokenSilently();
-      console.log(token);
-      const response = await fetch('/api/v1/books',
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-      const data = await response.json();
-      setApiResponse(JSON.stringify(data));
-    } catch (err) {
-      setApiResponse(JSON.stringify(err));
-    }
-  };
+  const { isAuthenticated, user, getAccessTokenSilently } = useAuth0();
 
   const storeUser = async () => {
     if (isAuthenticated) {
@@ -43,9 +35,9 @@ function App() {
             body: JSON.stringify({ email: user.email })
           });
         const data = await response.json();
-        setApiResponse(JSON.stringify(data));
+        console.log(data);
       } catch (err) {
-        setApiResponse(JSON.stringify(err));
+        console.log(err);
       }
     }
   };
@@ -56,29 +48,19 @@ function App() {
   }, [isAuthenticated]);
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          TrackMyReading by MJ Felix is coming ...
-        </p>
-        {isLoading ? 'Loading ...' :
-          <p>
-            <AuthenticationButton />
-            <br />
-            <button onClick={testApi}>Test API</button>
-          </p>
-        }
-      </header>
+    <>
+      <Header />
       <main>
-        {user &&
-          <JSONPretty style={{ textAlign: 'left' }} data={user}></JSONPretty>
-        }
-        {apiResponse &&
-          <JSONPretty style={{ textAlign: 'left' }} data={apiResponse}></JSONPretty>
-        }
+        <Switch>
+          <PrivateRoute path='/books/reading' component={BooksInProgressPage} />
+          <PrivateRoute path='/books/added' component={BooksAddedPage} />
+          <PrivateRoute path='/books/finished' component={BooksFinishedPage} />
+          <PrivateRoute path='/books/:id' component={BookPage} />
+          <PrivateRoute path='/user' component={UserPage} />
+          <PublicRoute path='/' component={HomePage} />
+        </Switch>
       </main>
-    </div >
+    </>
   );
 }
 
