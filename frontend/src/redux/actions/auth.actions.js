@@ -32,18 +32,16 @@ export const upsertUser = (email) => async (dispatch, getState) => {
         });
 
     } catch (error) {
-        if (error.response.status === 401) {
-            dispatch({
-                type: AuthActionTypes.USER_UPSERT_FAILURE,
-                payload: error.response.data.message
-            });
+        dispatch({
+            type: AuthActionTypes.USER_UPSERT_FAILURE,
+            payload: error.response.data.message
+        });
+        if (error.response.status === 401 || error.response.status === 422) {
             setTimeout(() => {
                 dispatch({
                     type: AuthActionTypes.LOGOUT,
                 });
             }, 2000);
-
         }
-
     }
 };

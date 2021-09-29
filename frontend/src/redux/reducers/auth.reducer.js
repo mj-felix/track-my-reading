@@ -5,7 +5,7 @@ const initialState = {
     user: null,
     token: '',
     error: '',
-    forceLogout: false
+    performLogout: false
 };
 
 const authReducer = (state = initialState, action) => {
@@ -18,7 +18,8 @@ const authReducer = (state = initialState, action) => {
         case AuthActionTypes.USER_UPSERT_REQUEST:
             return {
                 ...state,
-                loading: true
+                loading: true,
+                error: ''
             };
         case AuthActionTypes.USER_UPSERT_SUCCESS:
             return {
@@ -36,7 +37,7 @@ const authReducer = (state = initialState, action) => {
             };
         case AuthActionTypes.LOGOUT:
             return {
-                forceLogout: true
+                performLogout: true
             };
         default:
             return state;

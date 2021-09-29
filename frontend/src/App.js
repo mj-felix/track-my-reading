@@ -22,26 +22,26 @@ import { storeToken, upsertUser } from './redux/actions/auth.actions';
 
 function App() {
   const dispatch = useDispatch();
-  const forceLogout = useSelector(state => state.auth.forceLogout);
+  const performLogout = useSelector(state => state.auth.performLogout);
   const { isAuthenticated, user, getAccessTokenSilently, logout } = useAuth0();
 
   const storeUser = async () => {
     const token = await getAccessTokenSilently();
     dispatch(storeToken(token));
-    dispatch(upsertUser(user.email));
+    await dispatch(upsertUser(user.email));
   };
 
   useEffect(() => {
     if (isAuthenticated) {
       storeUser();
     }
-    if (forceLogout) {
+    if (performLogout) {
       logout({
         returnTo: window.location.origin,
       });
     }
     // eslint-disable-next-line
-  }, [isAuthenticated, forceLogout]);
+  }, [isAuthenticated, performLogout]);
 
   return (
     <>
