@@ -1,5 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider as StoreProvider } from 'react-redux';
+
 import './index.css';
 import App from './App';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
@@ -8,12 +10,15 @@ import "@fontsource/roboto";
 
 import { BrowserRouter as Router } from "react-router-dom";
 import Auth0ProviderWithHistory from "./auth/auth0-provider-with-history";
+import store from './redux/store';
 
 ReactDOM.render(
   <React.StrictMode>
     <Router>
       <Auth0ProviderWithHistory>
-        <App />
+        <StoreProvider store={store}>
+          <App />
+        </StoreProvider>
       </Auth0ProviderWithHistory>
     </Router>
   </React.StrictMode>,
