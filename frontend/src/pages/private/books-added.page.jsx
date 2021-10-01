@@ -12,7 +12,7 @@ const BooksAddedPage = () => {
     const { booksAdded, loading, error } = books;
 
     useEffect(() => {
-        if (token && booksAdded.length === 0) {
+        if (token && !booksAdded) {
             dispatch(fetchBooks('added'));
         }
         // eslint-disable-next-line
@@ -24,13 +24,16 @@ const BooksAddedPage = () => {
             {loading && 'Loading...'}
             {error && <h2>{error}</h2>}
             {booksAdded &&
-                booksAdded.map(book => (
-                    <div key={book.id}>
-                        <JSONPretty data={book} />
-                        <NavLink to={`/books/${book.id}`}>Go to {book.title}</NavLink>
-                        <hr />
-                    </div>
-                ))
+                (booksAdded.length
+                    ? booksAdded.map(book => (
+                        <div key={book.id}>
+                            <JSONPretty data={book} />
+                            <NavLink to={`/books/${book.id}`}>Go to {book.title}</NavLink>
+                            <hr />
+                        </div>
+                    ))
+                    : 'No books'
+                )
             }
         </>
     );

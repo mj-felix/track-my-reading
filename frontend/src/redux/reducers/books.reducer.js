@@ -2,9 +2,9 @@ import BooksActionTypes from '../types/books.types';
 
 const initialState = {
     loading: false,
-    booksReading: [],
-    booksAdded: [],
-    booksFinished: [],
+    booksReading: null,
+    booksAdded: null,
+    booksFinished: null,
     error: ''
 };
 
