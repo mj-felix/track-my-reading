@@ -3,7 +3,14 @@ import { Switch } from 'react-router-dom';
 import { useAuth0 } from "@auth0/auth0-react";
 import { useDispatch, useSelector } from 'react-redux';
 
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
 import './App.css';
+
+import CssBaseline from '@mui/material/CssBaseline';
+import Container from '@mui/material/Container';
 
 import PrivateRoute from './components/routing/private-route.container';
 import PublicRoute from './components/routing/public-route.container';
@@ -45,17 +52,20 @@ function App() {
 
   return (
     <>
+      <CssBaseline />
       <Header />
-      <main>
-        <Switch>
-          <PrivateRoute path='/books/reading' component={BooksReadingPage} />
-          <PrivateRoute path='/books/added' component={BooksAddedPage} />
-          <PrivateRoute path='/books/finished' component={BooksFinishedPage} />
-          <PrivateRoute path='/books/:id' component={BookPage} />
-          <PrivateRoute path='/user' component={UserPage} />
-          <PublicRoute path='/' component={HomePage} />
-        </Switch>
-      </main>
+      <Container maxWidth='md'>
+        <main>
+          <Switch>
+            <PrivateRoute path='/books/reading' component={BooksReadingPage} />
+            <PrivateRoute path='/books/added' component={BooksAddedPage} />
+            <PrivateRoute path='/books/finished' component={BooksFinishedPage} />
+            <PrivateRoute path='/books/:id' component={BookPage} />
+            <PrivateRoute path='/user' component={UserPage} />
+            <PublicRoute path='/' component={HomePage} />
+          </Switch>
+        </main>
+      </Container>
     </>
   );
 }
