@@ -1,11 +1,16 @@
 # TrackMyReading by MJ Felix
 
-_Frontend coming soon ... watch this space! APIs are functional in Production._
+<span style='color:red'>**Project Status: ABANDONED**</span>
+
+Project has been abandoned due to lack of time.
+
+Backend APIs are fully functional in Production.
+
+After you log in, grab token from the console and head to [Swagger documentation page](https://trackmyreading.mjfelix.dev/api/v1/docs) where you will be able to make authenticated API calls.
 
 ## Table of Contents
 
 - [Description](#description)
-- [Scope of Functionalities](#scope-of-functionalities)
 - [Technologies/Components](#technologiescomponents)
   - [Backend/APIs](#backendapis)
   - [Frontend](#frontend)
@@ -22,10 +27,6 @@ _Frontend coming soon ... watch this space! APIs are functional in Production._
 ## Description
 
 Add books you want to read, add reading sessions and analyse the stats around your reading.
-
-## Scope of Functionalities
-
-_Coming soon ..._
 
 ## Technologies/Components
 
@@ -44,7 +45,7 @@ _Coming soon ..._
 
 ### Frontend
 
-_Coming soon ..._
+_Development of the frontend has not been completed._
 
 - React
 - Redux

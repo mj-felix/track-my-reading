@@ -4,10 +4,8 @@ const HomePage = () => {
   return (
     <>
       <h1 style={{ color: "red" }}>Project Abandoned</h1>
-      <p>
-        Project has been abandoned due to lack of time. Backend APIs are fully
-        functional.
-      </p>
+      <p>Project has been abandoned due to lack of time.</p>
+      <p>Backend APIs are fully functional.</p>
       <p>
         Log in (or sign up), grab token from the console and head to{" "}
         <a
