@@ -7,7 +7,7 @@ const HomePage = () => {
       <p>Project has been abandoned due to lack of time.</p>
       <p>Backend APIs are fully functional.</p>
       <p>
-        Log in (or sign up), grab token from the console and head to{" "}
+        Log in, grab token from the console and head to{" "}
         <a
           href="https://trackmyreading.mjfelix.dev/api/v1/docs/"
           target="_blank"
